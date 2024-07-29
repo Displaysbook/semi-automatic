@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+  .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .tools {
+    margin-bottom: 20px;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="tools">
+    <!-- 添加颜色选择器 -->
+    <input type="color" id="colorPicker">
+
+    <!-- 添加画笔大小选择器 -->
+    <input type="range" id="brushSize" min="1" max="10">
+
+    <!-- 添加画布大小选择器 -->
+    <input type="number" id="canvasWidth" placeholder="画布宽度">
+    <input type="number" id="canvasHeight" placeholder="画布高度">
+    <button id="btnResize">调整画布大小</button>
+
+    <!-- 添加图片导出按钮 -->
+    <button id="btnExport">导出图片</button>
+
+    <!-- 添加图片打开按钮 -->
+    <input type="file" id="btnOpenImage" accept="image/*">
+  </div>
+
+  <canvas id="myCanvas" width="500" height="500" style="border:1px solid #d3d3d3;">
+    您的浏览器不支持canvas元素。
+  </canvas>
+</div>
+
+<script>
+var canvas = document.getElementById('myCanvas');
+var ctx = canvas.getContext('2d');
+
+// 自动适配屏幕
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+var mouse = {x: 0, y: 0};
+
+canvas.addEventListener('mousemove', function(e) {
+  mouse.x = e.pageX - this.offsetLeft;
+  mouse.y = e.pageY - this.offsetTop;
+}, false);
+
+ctx.lineWidth = 3;
+ctx.lineJoin = 'round';
+ctx.lineCap = 'round';
+ctx.strokeStyle = '#00CC99';
+
+// 使用颜色选择器更改画笔颜色
+document.getElementById('colorPicker').addEventListener('change', function(e){
+  ctx.strokeStyle = this.value;
+}, false);
+
+// 使用画笔大小选择器更改画笔大小
+document.getElementById('brushSize').addEventListener('change', function(e){
+  ctx.lineWidth = this.value;
+}, false);
+
+canvas.addEventListener('mousedown', function(e) {
+    ctx.beginPath();
+    ctx.moveTo(mouse.x, mouse.y);
+
+    canvas.addEventListener('mousemove', onPaint, false);
+}, false);
+
+canvas.addEventListener('mouseup', function() {
+    canvas.removeEventListener('mousemove', onPaint, false);
+}, false);
+
+var onPaint = function() {
+    ctx.lineTo(mouse.x, mouse.y);
+    ctx.stroke();
+};
+
+// 导出图片功能
+document.getElementById('btnExport').addEventListener('click', function(e) {
+    var imgData = canvas.toDataURL("image/png");
+    var a = document.createElement('a');
+    a.href = imgData;
+    a.download = 'canvas-image.png';
+    a.click();
+}, false);
+
+// 打开图片功能
+document.getElementById('btnOpenImage').addEventListener('change', function(e){
+    var reader = new FileReader();
+    reader.onload = function(event){
+        var img = new Image();
+        img.onload = function(){
+            ctx.drawImage(img,0,0);
+        }
+        img.src = event.target.result;
+    }
+    reader.readAsDataURL(e.target.files[0]);     
+}, false);
+
+// 调整画布大小
+document.getElementById('btnResize').addEventListener('click', function(e){
+    var width = document.getElementById('canvasWidth').value;
+    var height = document.getElementById('canvasHeight').value;
+    if(width && height){
+        canvas.width = width;
+        canvas.height = height;
+    }
+}, false);
+
+</script>
+
+</body>
+</html>
