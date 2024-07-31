@@ -1,75 +1,76 @@
 <!DOCTYPE html>
 <html>
 <head>
-<style>
-  .main-container {
-    display: flex;
-    height: 100vh;
-    margin: 0;
-    padding: 0;
-  }
-  .sidebar {
-    width: 200px;
-    background-color: #f4f4f4;
-    padding: 10px;
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-    box-sizing: border-box;
-  }
-  .layer-list {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-  }
-  .layer-list-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 5px;
-  }
-  .layer-list-item input {
-    border: none;
-    padding: 5px;
-    flex-grow: 1;
-    border-radius: 3px;
-    background-color: #e0e0e0;
-    transition: background-color 0.3s;
-    margin-right: 5px;
-  }
-  .layer-list-item input:focus {
-    outline: none;
-    background-color: #d0d0d0;
-  }
-  .layer-controls {
-    margin-top: 10px;
-  }
-  .layer-controls button {
-    margin-top: 5px;
-    width: 100%;
-  }
-  .container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    flex-grow: 1;
-    position: relative;
-    overflow: hidden;
-  }
-  .tools {
-    margin-bottom: 20px;
-  }
-  .canvas-container {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  .layer {
-    position: absolute;
-    border: 1px solid #d3d3d3;
-  }
-</style>
+  <style>
+    .main-container {
+      display: flex;
+      height: 100vh;
+      margin: 0;
+      padding: 0;
+    }
+    .sidebar {
+      width: 200px;
+      background-color: #f4f4f4;
+      padding: 10px;
+      box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+      box-sizing: border-box;
+    }
+    .layer-list {
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+    }
+    .layer-list-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 5px;
+    }
+    .layer-list-item input {
+      border: none;
+      padding: 5px;
+      flex-grow: 1;
+      border-radius: 3px;
+      background-color: #e0e0e0;
+      transition: background-color 0.3s;
+      margin-right: 5px;
+    }
+    .layer-list-item input:focus {
+      outline: none;
+      background-color: #d0d0d0;
+    }
+    .layer-controls {
+      margin-top: 10px;
+    }
+    .layer-controls button {
+      margin-top: 5px;
+      width: 100%;
+    }
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      flex-grow: 1;
+      position: relative;
+      overflow: hidden;
+    }
+    .tools {
+      margin-bottom: 20px;
+    }
+    .canvas-container {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #ffffff;
+    }
+    .layer {
+      position: absolute;
+      border: 1px solid #d3d3d3;
+    }
+  </style>
 </head>
 <body>
 
@@ -88,7 +89,14 @@
   <div class="container">
     <div class="tools">
       <input type="color" id="colorPicker">
-      <input type="range" id="brushSize" min="1" max="10">
+      <input type="range" id="brushSize" min="1" max="50">
+      <label for="brushType">画笔类型:</label>
+      <select id="brushType">
+        <option value="round">圆形</option>
+        <option value="square">方形</option>
+        <option value="diamond">菱形</option>
+        <!-- Add more brush types as needed -->
+      </select>
       <input type="number" id="canvasWidth" placeholder="画布宽度">
       <input type="number" id="canvasHeight" placeholder="画布高度">
       <button id="btnResize">调整画布大小</button>
@@ -103,19 +111,19 @@
 </div>
 
 <script>
-var canvasContainer = document.getElementById('canvasContainer');
-var layerList = document.getElementById('layerList');
-var canvasWidth = 500;
-var canvasHeight = 500;
+  var canvasContainer = document.getElementById('canvasContainer');
+  var layerList = document.getElementById('layerList');
+  var canvasWidth = 500;
+  var canvasHeight = 500;
 
-var layers = [];
-var layerNames = [];
-var activeLayerIndex = 0;
-var mouse = {x: 0, y: 0};
-var isPainting = false;
-var canvasStates = [];
+  var layers = [];
+  var layerNames = [];
+  var activeLayerIndex = 0;
+  var mouse = {x: 0, y: 0};
+  var isPainting = false;
+  var canvasStates = [];
 
-function createLayer(name) {
+  function createLayer(name) {
     var newLayer = document.createElement('canvas');
     var layerIndex = layers.length;
     newLayer.id = 'layer' + layerIndex;
@@ -128,101 +136,122 @@ function createLayer(name) {
 
     updateLayerList();
     saveState();
-}
+  }
 
-function updateLayerList() {
+  function updateLayerList() {
     while (layerList.firstChild) {
-        layerList.removeChild(layerList.firstChild);
+      layerList.removeChild(layerList.firstChild);
     }
 
     layers.forEach((layer, index) => {
-        var listItem = document.createElement('li');
-        listItem.className = 'layer-list-item';
-        listItem.dataset.index = index;
+      var listItem = document.createElement('li');
+      listItem.className = 'layer-list-item';
+      listItem.dataset.index = index;
 
-        var input = document.createElement('input');
-        input.type = 'text';
-        input.value = layerNames[index] || `图层 ${index}`;
+      var input = document.createElement('input');
+      input.type = 'text';
+      input.value = layerNames[index] || `图层 ${index}`;
 
-        input.addEventListener('input', function() {
-            layerNames[index] = input.value;
-        });
+      input.addEventListener('input', function() {
+        layerNames[index] = input.value;
+      });
 
-        var visibilityToggle = document.createElement('input');
-        visibilityToggle.type = 'checkbox';
-        visibilityToggle.checked = layer.style.display !== 'none';
-        visibilityToggle.addEventListener('change', function() {
-            layer.style.display = this.checked ? 'block' : 'none';
-        });
+      var visibilityToggle = document.createElement('input');
+      visibilityToggle.type = 'checkbox';
+      visibilityToggle.checked = layer.style.display !== 'none';
+      visibilityToggle.addEventListener('change', function() {
+        layer.style.display = this.checked ? 'block' : 'none';
+      });
 
-        listItem.appendChild(input);
-        listItem.appendChild(visibilityToggle);
-        layerList.appendChild(listItem);
+      listItem.appendChild(input);
+      listItem.appendChild(visibilityToggle);
+      layerList.appendChild(listItem);
 
-        listItem.addEventListener('click', function() {
-            activeLayerIndex = index;
-            highlightActiveLayer();
-        });
+      listItem.addEventListener('click', function() {
+        activeLayerIndex = index;
+        highlightActiveLayer();
+      });
     });
 
     highlightActiveLayer();
-}
+  }
 
-function highlightActiveLayer() {
+  function highlightActiveLayer() {
     var listItems = document.querySelectorAll('.layer-list-item');
     listItems.forEach((item, index) => {
-        if (index === activeLayerIndex) {
-            item.style.backgroundColor = '#b0b0b0';
-        } else {
-            item.style.backgroundColor = 'transparent';
-        }
+      if (index === activeLayerIndex) {
+        item.style.backgroundColor = '#b0b0b0';
+      } else {
+        item.style.backgroundColor = 'transparent';
+      }
     });
-}
+  }
 
-function getActiveLayerContext() {
+  function getActiveLayerContext() {
     return layers[activeLayerIndex].getContext('2d');
-}
+  }
 
-function getActiveLayer() {
+  function getActiveLayer() {
     return layers[activeLayerIndex];
-}
+  }
 
-function resizeCanvas() {
+  function resizeCanvas() {
     canvasWidth = canvasContainer.offsetWidth;
     canvasHeight = canvasContainer.offsetHeight;
 
     layers.forEach((layer) => {
-        var tempCanvas = document.createElement('canvas');
-        tempCanvas.width = layer.width;
-        tempCanvas.height = layer.height;
-        var tempCtx = tempCanvas.getContext('2d');
-        tempCtx.drawImage(layer, 0, 0);
+      var tempCanvas = document.createElement('canvas');
+      tempCanvas.width = layer.width;
+      tempCanvas.height = layer.height;
+      var tempCtx = tempCanvas.getContext('2d');
+      tempCtx.drawImage(layer, 0, 0);
 
-        layer.width = canvasWidth;
-        layer.height = canvasHeight;
-        var ctx = layer.getContext('2d');
-        ctx.drawImage(tempCanvas, 0, 0, canvasWidth, canvasHeight);
+      layer.width = canvasWidth;
+      layer.height = canvasHeight;
+      var ctx = layer.getContext('2d');
+      ctx.drawImage(tempCanvas, 0, 0, canvasWidth, canvasHeight);
     });
-}
+  }
 
-window.addEventListener('resize', resizeCanvas);
-resizeCanvas();
+  window.addEventListener('resize', resizeCanvas);
+  resizeCanvas();
 
-canvasContainer.addEventListener('mousemove', function(e) {
+  canvasContainer.addEventListener('mousemove', function(e) {
     var rect = canvasContainer.getBoundingClientRect();
     mouse.x = e.clientX - rect.left;
     mouse.y = e.clientY - rect.top;
-}, false);
+  }, false);
 
-document.getElementById('colorPicker').addEventListener('change', function(e){
+  document.getElementById('colorPicker').addEventListener('change', function(e){
     getActiveLayerContext().strokeStyle = this.value;
-}, false);
+  }, false);
 
-document.getElementById('brushSize').addEventListener('change', function(e){
-    getActiveLayerContext().lineWidth = this.value;
-}, false);
+  document.getElementById('brushSize').addEventListener('change', function(e){
+    var brushSize = parseInt(this.value, 10);
+    getActiveLayerContext().lineWidth = brushSize;
+  }, false);
 
-canvasContainer.addEventListener('mousedown', function(e) {
+  document.getElementById('brushType').addEventListener('change', function(e) {
+    var brushType = e.target.value;
+    var ctx = getActiveLayerContext();
+
+    switch (brushType) {
+      case 'round':
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+        break;
+      case 'square':
+        ctx.lineCap = 'butt';
+        ctx.lineJoin = 'miter';
+        break;
+      case 'diamond':
+        ctx.lineCap = 'square';
+        ctx.lineJoin = 'bevel';
+        break;
+    }
+  }, false);
+
+  canvasContainer.addEventListener('mousedown', function(e) {
     saveState();
 
     var ctx = getActiveLayerContext();
@@ -231,34 +260,32 @@ canvasContainer.addEventListener('mousedown', function(e) {
 
     canvasContainer.addEventListener('mousemove', onPaint, false);
     isPainting = true;
-}, false);
+  }, false);
 
-canvasContainer.addEventListener('mouseup', function() {
+  canvasContainer.addEventListener('mouseup', function() {
     canvasContainer.removeEventListener('mousemove', onPaint, false);
     isPainting = false;
-}, false);
+  }, false);
 
-var onPaint = function() {
+  var onPaint = function() {
     if (!isPainting) return;
     var ctx = getActiveLayerContext();
     ctx.lineTo(mouse.x, mouse.y);
     ctx.stroke();
-};
+  };
 
-document.getElementById('btnExport').addEventListener('click', function(e) {
+  document.getElementById('btnExport').addEventListener('click', function(e) {
     var mergedCanvas = document.createElement('canvas');
     mergedCanvas.width = canvasWidth;
     mergedCanvas.height = canvasHeight;
     var mergedCtx = mergedCanvas.getContext('2d');
 
-    // 先清空 mergedCanvas
     mergedCtx.clearRect(0, 0, canvasWidth, canvasHeight);
 
     layers.forEach((layer) => {
-        // 只绘制可见的图层
-        if (layer.style.display !== 'none') {
-            mergedCtx.drawImage(layer, 0, 0);
-        }
+      if (layer.style.display !== 'none') {
+        mergedCtx.drawImage(layer, 0, 0);
+      }
     });
 
     var imgData = mergedCanvas.toDataURL("image/png");
@@ -266,91 +293,88 @@ document.getElementById('btnExport').addEventListener('click', function(e) {
     a.href = imgData;
     a.download = 'canvas-image.png';
     a.click();
-}, false);
+  }, false);
 
-
-document.getElementById('btnOpenImage').addEventListener('change', function(e){
+  document.getElementById('btnOpenImage').addEventListener('change', function(e){
     var reader = new FileReader();
     reader.onload = function(event){
-        var img = new Image();
-        img.onload = function(){
-            getActiveLayerContext().drawImage(img, 0, 0);
-            saveState();
-        }
-        img.src = event.target.result;
+      var img = new Image();
+      img.onload = function(){
+        getActiveLayerContext().drawImage(img, 0, 0);
+        saveState();
+      }
+      img.src = event.target.result;
     }
     reader.readAsDataURL(e.target.files[0]);     
-}, false);
+  }, false);
 
-document.getElementById('btnResize').addEventListener('click', function(e){
+  document.getElementById('btnResize').addEventListener('click', function(e) {
     var width = document.getElementById('canvasWidth').value;
     var height = document.getElementById('canvasHeight').value;
     if(width && height){
-        var oldWidth = canvasWidth;
-        var oldHeight = canvasHeight;
-        canvasWidth = parseInt(width);
-        canvasHeight = parseInt(height);
+      var oldWidth = canvasWidth;
+      var oldHeight = canvasHeight;
+      canvasWidth = parseInt(width);
+      canvasHeight = parseInt(height);
 
-        // 更新画布容器大小
-        canvasContainer.style.width = canvasWidth + 'px';
-        canvasContainer.style.height = canvasHeight + 'px';
+      canvasContainer.style.width = canvasWidth + 'px';
+      canvasContainer.style.height = canvasHeight + 'px';
 
-        // 调整每个图层的大小
-        resizeCanvas();
+      resizeCanvas();
 
-        saveState(); // 调整大小后保存状态
+      saveState(); 
     }
-}, false);
+  }, false);
 
-document.getElementById('btnUndo').addEventListener('click', function(e) {
+  document.getElementById('btnUndo').addEventListener('click', function(e) {
     if (canvasStates.length > 0) {
-        var previousState = canvasStates.pop();
-        layers.forEach((layer, index) => {
-            var img = new Image();
-            img.onload = function() {
-                var ctx = layer.getContext('2d');
-                ctx.clearRect(0, 0, canvasWidth, canvasHeight); // 清除画布
-                ctx.drawImage(img, 0, 0); // 绘制先前的状态
-            };
-            img.src = previousState[index]; // 获取每个图层的先前状态
-        });
+      var previousState = canvasStates.pop();
+      layers.forEach((layer, index) => {
+        var img = new Image();
+        img.onload = function() {
+          var ctx = layer.getContext('2d');
+          ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+          ctx.drawImage(img, 0, 0);
+        };
+        img.src = previousState[index];
+      });
     }
-}, false);
+  }, false);
 
-document.getElementById('btnAddLayer').addEventListener('click', function() {
+  document.getElementById('btnAddLayer').addEventListener('click', function() {
     saveState();
     createLayer();
-}, false);
+  }, false);
 
-document.getElementById('btnRemoveLayer').addEventListener('click', function() {
+  document.getElementById('btnRemoveLayer').addEventListener('click', function() {
     if (layers.length > 0) {
-        saveState();
-        var layer = getActiveLayer();
-        canvasContainer.removeChild(layer);
-        layers.splice(activeLayerIndex, 1);
-        layerNames.splice(activeLayerIndex, 1);
-        if (activeLayerIndex >= layers.length) {
-            activeLayerIndex = layers.length - 1;
-        }
-        updateLayerList();
-        saveState();
+      saveState();
+      var layer = getActiveLayer();
+      canvasContainer.removeChild(layer);
+      layers.splice(activeLayerIndex, 1);
+      layerNames.splice(activeLayerIndex, 1);
+      if (activeLayerIndex >= layers.length) {
+        activeLayerIndex = layers.length - 1;
+      }
+      updateLayerList();
+      saveState();
     }
-}, false);
+  }, false);
 
-function saveState() {
+  function saveState() {
     var state = layers.map(layer => {
-        var canvas = document.createElement('canvas');
-        canvas.width = layer.width;
-        canvas.height = layer.height;
-        var ctx = canvas.getContext('2d');
-        ctx.drawImage(layer, 0, 0);
-        return canvas.toDataURL();
+      var canvas = document.createElement('canvas');
+      canvas.width = layer.width;
+      canvas.height = layer.height;
+      var ctx = canvas.getContext('2d');
+      ctx.drawImage(layer, 0, 0);
+      return canvas.toDataURL();
     });
 
     canvasStates.push(state);
-}
+  }
 
-createLayer('背景'); // 创建一个初始图层
+  createLayer('背景');
 </script>
 
 </body>
