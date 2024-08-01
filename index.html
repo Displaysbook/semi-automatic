@@ -25,19 +25,25 @@
       justify-content: space-between;
       align-items: center;
       margin-bottom: 5px;
+      padding: 5px;
+      cursor: move;
+      background-color: #e0e0e0;
+    }
+    .layer-list-item.dragging {
+      opacity: 0.5;
     }
     .layer-list-item input {
       border: none;
       padding: 5px;
       flex-grow: 1;
       border-radius: 3px;
-      background-color: #e0e0e0;
+      background-color: #d0d0d0;
       transition: background-color 0.3s;
       margin-right: 5px;
     }
     .layer-list-item input:focus {
       outline: none;
-      background-color: #d0d0d0;
+      background-color: #c0c0c0;
     }
     .layer-controls {
       margin-top: 10px;
@@ -147,6 +153,7 @@
       var listItem = document.createElement('li');
       listItem.className = 'layer-list-item';
       listItem.dataset.index = index;
+      listItem.draggable = true;
 
       var input = document.createElement('input');
       input.type = 'text';
@@ -170,6 +177,42 @@
       listItem.addEventListener('click', function() {
         activeLayerIndex = index;
         highlightActiveLayer();
+      });
+
+      // Drag and drop handlers
+      listItem.addEventListener('dragstart', function(e) {
+        e.dataTransfer.setData('text/plain', index);
+        listItem.classList.add('dragging');
+      });
+
+      listItem.addEventListener('dragend', function() {
+        listItem.classList.remove('dragging');
+      });
+
+      layerList.addEventListener('dragover', function(e) {
+        e.preventDefault();
+        const draggingItem = document.querySelector('.dragging');
+        const currentItem = e.target.closest('.layer-list-item');
+        if (currentItem && draggingItem !== currentItem) {
+          layerList.insertBefore(draggingItem, currentItem.nextSibling);
+        }
+      });
+
+      layerList.addEventListener('drop', function(e) {
+        e.preventDefault();
+        const fromIndex = parseInt(e.dataTransfer.getData('text/plain'), 10);
+        const toIndex = parseInt(e.target.closest('.layer-list-item').dataset.index, 10);
+
+        if (fromIndex !== toIndex) {
+          const [movedLayer] = layers.splice(fromIndex, 1);
+          layers.splice(toIndex, 0, movedLayer);
+          
+          const [movedName] = layerNames.splice(fromIndex, 1);
+          layerNames.splice(toIndex, 0, movedName);
+
+          updateLayerList();
+          saveState();
+        }
       });
     });
 
