@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photoshop UI Clone</title>
+    <style>
+        body {
+            display: flex;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            overflow: hidden; /* 禁止上下滚动 */
+        }
+
+        .toolbar {
+            width: 100%;
+            height: 50px;
+            background-color: #333;
+            color: white;
+            display: flex;
+            align-items: center;
+            padding: 0 10px;
+        }
+
+        .toolbar .menu {
+            margin-right: 20px;
+        }
+
+        .sidebar {
+            width: 100px; /* 调整侧边栏宽度 */
+            background-color: #444;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            padding: 10px;
+        }
+
+        .sidebar .button {
+            background-color: #666;
+            border: none;
+            color: white;
+            padding: 5px;
+            margin: 5px 0;
+            text-align: center;
+            cursor: pointer;
+            font-size: 12px;
+            width: 80px; /* 调整按钮宽度 */
+        }
+
+        .main-canvas {
+            flex-grow: 1;
+            background-color: #555;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+        }
+
+        .details {
+            width: 200px;
+            background-color: #666;
+            color: white;
+            padding: 10px;
+            display: none; /* 默认隐藏 */
+            position: absolute;
+            right: 0; /* 显示在屏幕右侧 */
+            top: 50px; /* 避免与工具栏重叠 */
+            height: calc(100% - 50px); /* 占满剩余高度 */
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <!-- 更新后的按钮文字 -->
+        <button class="button" onclick="showDetails('move')">移动</button>
+        <button class="button" onclick="showDetails('select')">框选</button>
+        <button class="button" onclick="showDetails('lasso')">套索</button>
+        <button class="button" onclick="showDetails('color')">取色</button>
+        <button class="button" onclick="showDetails('text')">文字</button>
+        <button class="button" onclick="showDetails('pan')">平移</button>
+        <button class="button" onclick="showDetails('canvas')">画布</button>
+        <button class="button" onclick="showDetails('rotate')">旋转</button>
+        <button class="button" onclick="showDetails('brush')">画笔</button>
+        <!-- 继续添加其他按钮 -->
+    </div>
+    <div class="main-canvas">
+        <!-- 主画布 -->
+    </div>
+    <div class="toolbar">
+        <div class="menu">文件</div>
+        <div class="menu">编辑</div>
+        <div class="menu">图像</div>
+        <div class="menu">图层</div>
+        <div class="menu">文字</div>
+        <div class="menu">选择</div>
+        <div class="menu">滤镜</div>
+        <div class="menu">3D</div>
+        <div class="menu">视图</div>
+        <div class="menu">增效</div>
+        <div class="menu">窗口</div>
+        <div class="menu">帮助</div>
+        <div class="menu">插件</div>
+    </div>
+    <div class="details" id="details">
+        <!-- 工具详情设置 -->
+    </div>
+    <script>
+        function showDetails(tool) {
+            const details = document.getElementById('details');
+            details.style.display = 'block';
+            switch(tool) {
+                case 'move':
+                    details.innerHTML = '<h3>移动工具</h3><p>这里是移动工具的详情设置。</p>';
+                    break;
+                case 'select':
+                    details.innerHTML = '<h3>框选工具</h3><p>这里是框选工具的详情设置。</p>';
+                    break;
+                case 'lasso':
+                    details.innerHTML = '<h3>套索工具</h3><p>这里是套索工具的详情设置。</p>';
+                    break;
+                case 'color':
+                    details.innerHTML = '<h3>取色工具</h3><p>这里是取色工具的详情设置。</p>';
+                    break;
+                case 'text':
+                    details.innerHTML = '<h3>文字工具</h3><p>这里是文字工具的详情设置。</p>';
+                    break;
+                case 'pan':
+                    details.innerHTML = '<h3>平移工具</h3><p>这里是平移工具的详情设置。</p>';
+                    break;
+                case 'canvas':
+                    details.innerHTML = '<h3>画布工具</h3><p>这里是画布工具的详情设置。</p>';
+                    break;
+                case 'rotate':
+                    details.innerHTML = '<h3>旋转工具</h3><p>这里是旋转工具的详情设置。</p>';
+                    break;
+                case 'brush':
+                    details.innerHTML = '<h3>画笔工具</h3><p>这里是画笔工具的详情设置。</p>';
+                    break;
+                default:
+                    details.innerHTML = '';
+            }
+        }
+    </script>
+</body>
+</html>
