@@ -88,8 +88,8 @@
 
   <div class="container">
     <div class="tools">
-      <input type="color" id="colorPicker">
-      <input type="range" id="brushSize" min="1" max="50">
+      <input type="color" id="colorPicker" title="选择颜色">
+      <input type="range" id="brushSize" min="1" max="50" title="选择画笔大小">
       <label for="brushType">画笔类型:</label>
       <select id="brushType">
         <option value="round">圆形</option>
@@ -252,14 +252,15 @@
   }, false);
 
   canvasContainer.addEventListener('mousedown', function(e) {
-    saveState();
+    if (getActiveLayer().style.display !== 'none') {
+      saveState();
+      var ctx = getActiveLayerContext();
+      ctx.beginPath();
+      ctx.moveTo(mouse.x, mouse.y);
 
-    var ctx = getActiveLayerContext();
-    ctx.beginPath();
-    ctx.moveTo(mouse.x, mouse.y);
-
-    canvasContainer.addEventListener('mousemove', onPaint, false);
-    isPainting = true;
+      canvasContainer.addEventListener('mousemove', onPaint, false);
+      isPainting = true;
+    }
   }, false);
 
   canvasContainer.addEventListener('mouseup', function() {
@@ -269,9 +270,11 @@
 
   var onPaint = function() {
     if (!isPainting) return;
-    var ctx = getActiveLayerContext();
-    ctx.lineTo(mouse.x, mouse.y);
-    ctx.stroke();
+    if (getActiveLayer().style.display !== 'none') {
+      var ctx = getActiveLayerContext();
+      ctx.lineTo(mouse.x, mouse.y);
+      ctx.stroke();
+    }
   };
 
   document.getElementById('btnExport').addEventListener('click', function(e) {
@@ -300,8 +303,10 @@
     reader.onload = function(event){
       var img = new Image();
       img.onload = function(){
-        getActiveLayerContext().drawImage(img, 0, 0);
-        saveState();
+        if (getActiveLayer().style.display !== 'none') {
+          getActiveLayerContext().drawImage(img, 0, 0);
+          saveState();
+        }
       }
       img.src = event.target.result;
     }
