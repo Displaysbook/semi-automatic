@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photoshop UI Clone</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="sidebar">
+        <!-- 更新后的按钮文字 -->
+        <button class="button" onclick="showDetails('move')">移动</button>
+        <button class="button" onclick="showDetails('select')">框选</button>
+        <button class="button" onclick="showDetails('lasso')">套索</button>
+        <button class="button" onclick="showDetails('color')">取色</button>
+        <button class="button" onclick="showDetails('text')">文字</button>
+        <button class="button" onclick="showDetails('pan')">平移</button>
+        <button class="button" onclick="showDetails('canvas')">画布</button>
+        <button class="button" onclick="showDetails('rotate')">旋转</button>
+        <button class="button" onclick="showDetails('brush')">画笔</button>
+        <!-- 继续添加其他按钮 -->
+    </div>
+    <div class="main-canvas">
+        <!-- 主画布 -->
+    </div>
+    <div class="toolbar">
+        <div class="menu">文件
+            <div class="dropdown">
+                <a href="#">新建</a>
+                <a href="#">打开</a>
+                <a href="#">保存</a>
+                <a href="#">另存为</a>
+            </div>
+        </div>
+        <div class="menu">编辑
+            <div class="dropdown">
+                <a href="#">撤销</a>
+                <a href="#">重做</a>
+                <a href="#">剪切</a>
+                <a href="#">复制</a>
+                <a href="#">粘贴</a>
+            </div>
+        </div>
+        <div class="menu">图像
+            <div class="dropdown">
+                <a href="#">调整</a>
+                <a href="#">图像大小</a>
+                <a href="#">画布大小</a>
+                <a href="#">创建画布</a>
+            </div>
+        </div>
+        <div class="menu">图层
+            <div class="dropdown">
+                <a href="#">新建图层</a>
+                <a href="#">删除图层</a>
+                <a href="#">合并图层</a>
+            </div>
+        </div>
+        <div class="menu">文字
+            <div class="dropdown">
+                <a href="#">字体</a>
+                <a href="#">大小</a>
+                <a href="#">颜色</a>
+            </div>
+        </div>
+        <div class="menu">选择
+            <div class="dropdown">
+                <a href="#">全选</a>
+                <a href="#">取消选择</a>
+                <a href="#">反选</a>
+            </div>
+        </div>
+        <div class="menu">滤镜
+            <div class="dropdown">
+                <a href="#">模糊</a>
+                <a href="#">锐化</a>
+                <a href="#">扭曲</a>
+            </div>
+        </div>
+        <div class="menu">3D
+            <div class="dropdown">
+                <a href="#">新建3D图层</a>
+                <a href="#">渲染</a>
+            </div>
+        </div>
+        <div class="menu">视图
+            <div class="dropdown">
+                <a href="#">放大</a>
+                <a href="#">缩小</a>
+                <a href="#">适应屏幕</a>
+            </div>
+        </div>
+        <div class="menu">增效
+            <div class="dropdown">
+                <a href="#">增效插件1</a>
+                <a href="#">增效插件2</a>
+            </div>
+        </div>
+        <div class="menu">窗口
+            <div class="dropdown">
+                <a href="#">工作区</a>
+                <a href="#">层</a>
+            </div>
+        </div>
+        <div class="menu">帮助
+            <div class="dropdown">
+                <a href="#">查看帮助</a>
+                <a href="#">关于</a>
+            </div>
+        </div>
+        <div class="menu">插件
+            <div class="dropdown">
+                <a href="#">插件管理</a>
+                <a href="#">下载插件</a>
+            </div>
+        </div>
+        <div class="menu">语言
+            <div class="dropdown">
+                <a href="#">中文</a>
+                <a href="#">English</a>
+            </div>
+        </div>
+        <div class="menu">设置
+            <div class="dropdown">
+                <a href="#">主题</a>
+                <a href="#">字体</a>
+            </div>
+        </div>
+        <div class="menu">背景
+            <div class="dropdown">
+                <a href="#">不使用</a>
+                <a href="#">添加自定义背景</a>
+            </div>
+        </div>
+
+    </div>
+    <div class="details" id="details">
+        <!-- 工具详情设置 -->
+        <span class="close-btn" onclick="closeDetails()">X</span>
+    </div>
+
+    <!-- //////////////////////////////////////////////////////////// -->
+
+
+    <!-- //////////////////////////////////////////////////////////// -->
+
+
+
+    <script src="scripts.js"></script>
+</body>
+</html>
