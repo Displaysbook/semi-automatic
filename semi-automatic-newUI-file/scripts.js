@@ -74,6 +74,7 @@ function closeAllDropdowns() {
     });
 }
 
+
 // 创建浮动GUI
 function createCanvas() {
     // 检查 GUI 是否已经存在
@@ -85,7 +86,38 @@ function createCanvas() {
         
         // 设置 innerHTML
         gui.innerHTML = `
-        <button onclick="document.getElementById('floating-gui').style.display = 'none';">关闭</button>
+        <button onclick="document.getElementById('floating-gui').style.display = 'none';" style="
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            margin-top: 10px;
+            padding: 10px 20px;
+            background-color: #ff5c5c;
+            border: none;
+            color: #fff;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: bold;
+        ">关闭</button>
+        `;
+
+        // 设置 GUI 样式
+        gui.style.cssText = `
+            position: fixed;
+            width: 800px;
+            height: 600px;
+            padding: 20px;
+            background-color: #333;
+            color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+            z-index: 1000;
+            display: none; /* 默认隐藏 */
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            box-sizing: border-box;
         `;
 
         // 添加到文档中
@@ -101,3 +133,4 @@ document.getElementById('createCanvasLink').addEventListener('click', function(e
     event.preventDefault(); // 阻止链接的默认行为
     createCanvas(); // 调用 createCanvas 函数
 });
+

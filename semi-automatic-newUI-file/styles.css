@@ -104,52 +104,6 @@ body {
     z-index: 1;
 }
 
-/* 关闭按钮样式 */
-.close-btn {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    cursor: pointer;
-    font-size: 18px;
-    font-weight: bold;
-    color: #fff;
-}
+/*测试新的gui 样式 完成需要合并在对应的js函数*/
 
-/* 浮动GUI样式 */
-#floating-gui {
-    position: fixed;
-    width: 800px;
-    height: 600px;
-    padding: 20px;
-    background-color: #333;
-    color: #fff;
-    border-radius: 5px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-    z-index: 1000;
-    display: none; /* 默认隐藏 */
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%); /* 使元素居中 */
-    box-sizing: border-box; /* 包括 padding 和 border 在内的总宽度和高度 */
-}
-
-/* 浮动GUI中的段落样式 */
-#floating-gui p {
-    margin: 0;
-    font-size: 16px;
-    position: relative;
-}
-
-/* 浮动GUI中的按钮样式 */
-#floating-gui button {
-    position: absolute;
-    top: 10px; /* 调整这个值来设置按钮距离顶部的距离 */
-    right: 10px; /* 调整这个值来设置按钮距离右边的距离 */
-    margin-top: 10px;
-    padding: 10px 20px;
-    background-color: #ff5c5c;
-    border: none;
-    color: #fff;
-    border-radius: 5px;
-    cursor: pointer;
-}
+/*测试新的gui 样式*/
