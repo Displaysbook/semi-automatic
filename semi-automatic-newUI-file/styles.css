@@ -1,3 +1,4 @@
+/* 设置页面整体布局和样式 */
 body {
     display: flex;
     height: 100vh;
@@ -6,6 +7,7 @@ body {
     overflow: hidden; /* 禁止上下滚动 */
 }
 
+/* 工具栏样式 */
 .toolbar {
     width: 100%;
     height: 50px;
@@ -17,6 +19,7 @@ body {
     position: relative; /* Position relative for absolute dropdown positioning */
 }
 
+/* 菜单项样式 */
 .menu {
     margin-right: 20px;
     position: relative; /* Position relative for absolute dropdown positioning */
@@ -25,6 +28,7 @@ body {
     font-size: 16px; /* Larger font size for the menu */
 }
 
+/* 下拉菜单样式 */
 .dropdown {
     display: none; /* Hidden by default */
     position: absolute;
@@ -39,6 +43,7 @@ body {
     border-radius: 4px; /* Rounded corners for the dropdown */
 }
 
+/* 下拉菜单链接样式 */
 .dropdown a {
     display: block;
     color: white;
@@ -47,10 +52,12 @@ body {
     font-size: 14px; /* Larger font size for dropdown items */
 }
 
+/* 下拉菜单链接悬停样式 */
 .dropdown a:hover {
     background-color: #555;
 }
 
+/* 侧边栏样式 */
 .sidebar {
     width: 100px; /* 调整侧边栏宽度 */
     background-color: #444;
@@ -60,6 +67,7 @@ body {
     padding: 10px;
 }
 
+/* 侧边栏按钮样式 */
 .sidebar .button {
     background-color: #666;
     border: none;
@@ -72,6 +80,7 @@ body {
     width: 80px; /* 调整按钮宽度 */
 }
 
+/* 主画布样式 */
 .main-canvas {
     flex-grow: 1;
     background-color: #555;
@@ -81,6 +90,7 @@ body {
     color: white;
 }
 
+/* 工具详情样式 */
 .details {
     width: 200px;
     background-color: #666;
@@ -94,6 +104,7 @@ body {
     z-index: 1;
 }
 
+/* 关闭按钮样式 */
 .close-btn {
     position: absolute;
     top: 10px;
@@ -104,3 +115,41 @@ body {
     color: #fff;
 }
 
+/* 浮动GUI样式 */
+#floating-gui {
+    position: fixed;
+    width: 800px;
+    height: 600px;
+    padding: 20px;
+    background-color: #333;
+    color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    z-index: 1000;
+    display: none; /* 默认隐藏 */
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%); /* 使元素居中 */
+    box-sizing: border-box; /* 包括 padding 和 border 在内的总宽度和高度 */
+}
+
+/* 浮动GUI中的段落样式 */
+#floating-gui p {
+    margin: 0;
+    font-size: 16px;
+    position: relative;
+}
+
+/* 浮动GUI中的按钮样式 */
+#floating-gui button {
+    position: absolute;
+    top: 10px; /* 调整这个值来设置按钮距离顶部的距离 */
+    right: 10px; /* 调整这个值来设置按钮距离右边的距离 */
+    margin-top: 10px;
+    padding: 10px 20px;
+    background-color: #ff5c5c;
+    border: none;
+    color: #fff;
+    border-radius: 5px;
+    cursor: pointer;
+}

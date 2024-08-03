@@ -1,3 +1,4 @@
+// 显示工具详情
 function showDetails(tool) {
     const details = document.getElementById('details');
     details.style.display = 'block';
@@ -34,34 +35,36 @@ function showDetails(tool) {
     }
 }
 
+// 关闭工具详情
 function closeDetails() {
     const details = document.getElementById('details');
     details.style.display = 'none';
 }
 
-// Add event listeners to toggle dropdowns
+// 添加事件监听器以切换下拉菜单
 const menus = document.querySelectorAll('.menu');
 
 menus.forEach(menu => {
     menu.addEventListener('click', (event) => {
-        event.stopPropagation(); // Prevent event from bubbling up
+        event.stopPropagation(); // 防止事件冒泡
         const dropdown = menu.querySelector('.dropdown');
         if (dropdown.style.display === 'block') {
             dropdown.style.display = 'none';
         } else {
-            closeAllDropdowns(); // Close other dropdowns
+            closeAllDropdowns(); // 关闭其他下拉菜单
             dropdown.style.display = 'block';
         }
     });
 });
 
-// Close dropdowns when clicking outside
+// 点击外部时关闭下拉菜单
 window.addEventListener('click', (e) => {
     if (!e.target.closest('.menu')) {
         closeAllDropdowns();
     }
 });
 
+// 关闭所有下拉菜单
 function closeAllDropdowns() {
     menus.forEach(menu => {
         const dropdown = menu.querySelector('.dropdown');
@@ -69,6 +72,32 @@ function closeAllDropdowns() {
             dropdown.style.display = 'none';
         }
     });
-
-
 }
+
+// 创建浮动GUI
+function createCanvas() {
+    // 检查 GUI 是否已经存在
+    let gui = document.getElementById('floating-gui');
+    if (!gui) {
+        // 创建 GUI 元素
+        gui = document.createElement('div');
+        gui.id = 'floating-gui';
+        
+        // 设置 innerHTML
+        gui.innerHTML = `
+        <button onclick="document.getElementById('floating-gui').style.display = 'none';">关闭</button>
+        `;
+
+        // 添加到文档中
+        document.body.appendChild(gui);
+    }
+
+    // 显示 GUI
+    gui.style.display = 'block';
+}
+
+// 为创建画布链接添加事件监听器
+document.getElementById('createCanvasLink').addEventListener('click', function(event) {
+    event.preventDefault(); // 阻止链接的默认行为
+    createCanvas(); // 调用 createCanvas 函数
+});
